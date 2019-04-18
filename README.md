@@ -1,6 +1,10 @@
 # Yet Another PHPUnit
 
-This extension is an enhanced fork-n-remake of [Better PHPUnit](https://github.com/calebporzio/better-phpunit). The major part of the code is taken from that repository.
+This extension is an enhanced fork-n-remake of [Better PHPUnit](https://github.com/calebporzio/better-phpunit). The major part of the code is taken from that repository.  
+
+## Installation
+
+[Download it from the Marketplace](https://marketplace.visualstudio.com/items?itemName=danilopolani.yet-another-phpunit) or search for **Yet Another PHPUnit** in your VSCode editor extension panel.
 
 ![Demo GIF](demo.gif)
 

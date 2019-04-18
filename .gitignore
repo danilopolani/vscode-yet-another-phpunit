@@ -1,0 +1,8 @@
+node_modules/
+vendor/
+.vscode-test/
+.vsix
+.DS_Store
+/src/test/project-stub/.vscode
+coverage/
+.nyc_output/**

@@ -1,0 +1,226 @@
+{
+	"name": "yet-another-phpunit",
+	"displayName": "Yet Another PHPUnit",
+	"description": "Yet another extension to run PHPUnit tests, but with superpowers!",
+	"publisher": "danilopolani",
+	"version": "1.0.0",
+    "icon": "icon.png",
+	"engines": {
+		"vscode": "^1.33.0"
+	},
+	"categories": [
+		"Debuggers"
+	],
+	"keywords": [
+		"phpunit",
+		"php unit",
+        "tests"
+	],
+	"activationEvents": [
+		"onCommand:yet-phpunit.run",
+        "onCommand:yet-phpunit.run-all",
+		"onLanguage:php"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+                "command": "yet-phpunit.run",
+                "title": "Yet PHPUnit: Run"
+            },
+            {
+                "command": "yet-phpunit.run-all",
+                "title": "Yet PHPUnit: Run All"
+            },
+            {
+                "command": "yet-phpunit.run-previous",
+                "title": "Yet PHPUnit: Re-Run Test"
+            },
+            {
+                "command": "yet-phpunit.run-explorer-folder",
+                "title": "Run Tests Inside Folder"
+            },
+            {
+                "command": "yet-phpunit.run-explorer-file",
+                "title": "Run File Tests"
+            }
+		],
+		"keybindings": [
+            {
+                "key": "cmd+k cmd+r",
+                "command": "yet-phpunit.run"
+            },
+            {
+                "key": "cmd+k cmd+p",
+                "command": "yet-phpunit.run-previous"
+            }
+        ],
+		"menus": {
+            "explorer/context": [
+                {
+                    "when": "explorerResourceIsFolder",
+                    "command": "yet-phpunit.run-explorer-folder"
+                },
+                {
+                    "when": "resourceLangId == php",
+                    "command": "yet-phpunit.run-explorer-file"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Yet Another PHPUnit Configuration",
+            "properties": {
+                "yet-phpunit.commandSuffix": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "This string will be appended to the phpunit command, it's a great place to add flags like '--stop-on-failure'"
+                },
+                "yet-phpunit.phpunitBinary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "A custom phpunit binary. Ex: 'phpunit', '/usr/local/bin/phpunit'"
+                },
+                "yet-phpunit.xmlConfigFilepath": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "Absolute path for the PHPUnit XML configuration file"
+                },
+                "yet-phpunit.ssh.enable": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Run tests over SSH"
+                },
+                "yet-phpunit.ssh.user": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "The user to connect as when running test via SSH"
+                },
+                "yet-phpunit.ssh.host": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "The hostname to use when running tests via SSH"
+                },
+                "yet-phpunit.ssh.port": {
+                    "type": [
+                        "integer"
+                    ],
+                    "default": 22,
+                    "description": "The port to use when running tests via SSH.  Deprecated, set yet-phpunit.options to '-p[port]' on Linux/Mac, and '-P [port]' on Windows."
+                },
+                "yet-phpunit.ssh.paths": {
+                    "type": "object",
+                    "default": {},
+                    "description": "The SSH path map. Keys are local (host) paths and values are remote (guest) paths."
+                },
+                "yet-phpunit.ssh.binary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "The path (and flags) to an SSH-compatible binary. If null it will use SSH on *nix and Putty on Windows."
+                },
+                "yet-phpunit.ssh.options": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "Additional command line options to pass to ssh/putty/plink"
+                },
+                "yet-phpunit.docker.enable": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Run tests within a Docker container"
+                },
+                "yet-phpunit.docker.command": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "The Docker command to execute a container. If null, an error will be thrown during execution."
+                },
+                "yet-phpunit.docker.paths": {
+                    "type": "object",
+                    "default": {},
+                    "description": "The docker path map. Keys are local (host) paths and values are remote (container) paths."
+                },
+                "yet-phpunit.codelens": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show CodeLens above classes and methods"
+                }
+            }
+        },
+		"problemMatchers": [
+            {
+                "name": "phpunit",
+                "owner": "php",
+                "fileLocation": "absolute",
+                "pattern": [
+                    {
+                        "regexp": "^\\d+\\)\\s.*$"
+                    },
+                    {
+                        "regexp": "^(.*)$",
+                        "message": 1
+                    },
+                    {
+                        "regexp": "^(.*):(\\d+)$",
+                        "file": 1,
+                        "location": 2
+                    }
+                ]
+            }
+        ],
+        "taskDefinitions": [
+            {
+                "type": "phpunit",
+                "required": [
+                    "task"
+                ],
+                "properties": {
+                    "task": {
+                        "type": "string",
+                        "description": "The task to execute"
+                    }
+                }
+            }
+        ]
+	},
+	"scripts": {
+		"vscode:prepublish": "yarn run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "yarn run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^10.12.21",
+		"php-parser": "^3.0.0-prerelease.8",
+		"tslint": "^5.12.1",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28"
+	},
+	"dependencies": {
+        "find-up": "^2.1.0",
+        "php-parser": "^3.0.0-prerelease.8"
+    }
+}

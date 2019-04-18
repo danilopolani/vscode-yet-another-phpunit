@@ -13,3 +13,4 @@ coverage/**
 demo.gif
 .travis.yml
 build.yml
+azure-pipelines.yml

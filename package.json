@@ -8,6 +8,10 @@
 	"engines": {
 		"vscode": "^1.33.0"
 	},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/danilopolani/vscode-yet-another-phpunit.git"
+    },
 	"categories": [
 		"Debuggers"
 	],

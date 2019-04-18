@@ -11,3 +11,4 @@ vsc-extension-quickstart.md
 coverage/**
 .nyc_output/**
 demo.gif
+.travis.yml

@@ -25,9 +25,11 @@ function timeout(seconds, callback) {
 describe('Yet Another PHPUnit Test Suite', () => {
     const configuration = vscode.workspace.getConfiguration('yet-phpunit');
     let workspaceRootPath = vscode.workspace.rootPath || '';
+    let isCI = false;
     // Fix CI tests path
     if (!workspaceRootPath.endsWith('/project-stub')) {
         workspaceRootPath = path_1.join(workspaceRootPath, 'project-stub');
+        isCI = true;
     }
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
         // Reset the test/project-stub/.vscode/settings.json settings for each test.
@@ -124,16 +126,24 @@ describe('Yet Another PHPUnit Test Suite', () => {
         let document = yield vscode.workspace.openTextDocument(path_1.join(workspaceRootPath, 'tests', 'SampleTest.php'));
         yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
         yield vscode.commands.executeCommand('yet-phpunit.run');
+        let expectedCommand = path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
+        if (isCI) {
+            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+        }
         yield timeout(waitToAssertInSeconds, () => {
-            assert.equal(extension_1._getLastCommand().output.trim(), path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'");
+            assert.equal(extension_1._getLastCommand().output.trim(), expectedCommand);
         });
     }));
     it('Run previous', () => __awaiter(this, void 0, void 0, function* () {
         let document = yield vscode.workspace.openTextDocument(path_1.join(workspaceRootPath, 'tests', 'OtherTest.php'));
         yield vscode.window.showTextDocument(document, { selection: new vscode.Range(12, 0, 12, 0) });
         yield vscode.commands.executeCommand('yet-phpunit.run-previous');
+        let expectedCommand = path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
+        if (isCI) {
+            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+        }
         yield timeout(waitToAssertInSeconds, () => {
-            assert.equal(extension_1._getLastCommand().output.trim(), path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'");
+            assert.equal(extension_1._getLastCommand().output.trim(), expectedCommand);
         });
     }));
     it('Run all tests', () => __awaiter(this, void 0, void 0, function* () {

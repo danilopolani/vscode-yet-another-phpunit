@@ -25,9 +25,11 @@ function timeout(seconds, callback) {
 describe('Yet Another PHPUnit SSH Test', () => {
     const configuration = vscode.workspace.getConfiguration('yet-phpunit');
     let workspaceRootPath = vscode.workspace.rootPath || '';
+    let isCI = false;
     // Fix CI tests path
     if (!workspaceRootPath.endsWith('/project-stub')) {
         workspaceRootPath = path_1.join(workspaceRootPath, 'project-stub');
+        isCI = true;
     }
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
         // Reset the test/project-stub/.vscode/settings.json settings for each test.
@@ -63,7 +65,11 @@ describe('Yet Another PHPUnit SSH Test', () => {
         yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
         yield vscode.commands.executeCommand('yet-phpunit.run');
         yield timeout(waitToAssertInSeconds, () => { });
-        assert.equal(extension_1._getLastCommand().output.trim(), path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + ` --filter '^.*::test_first( .*)?$'`);
+        let expectedCommand = path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + ` --filter '^.*::test_first( .*)?$'`;
+        if (isCI) {
+            expectedCommand += ` --configuration ${workspaceRootPath}/phpunit.xml`;
+        }
+        assert.equal(extension_1._getLastCommand().output.trim(), expectedCommand);
     }));
     it('The correct SSH command is run when triggering Yet Another PHPUnit', function () {
         return __awaiter(this, void 0, void 0, function* () {
@@ -71,7 +77,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
             yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
             yield vscode.commands.executeCommand('yet-phpunit.run');
             yield timeout(waitToAssertInSeconds, () => { });
-            assert.equal(extension_1._getLastCommand().output.trim(), `ssh -tt -p2222 auser@ahost "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' "`);
+            assert.equal(extension_1._getLastCommand().output.trim(), `ssh -tt -p2222 auser@ahost "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ? `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`);
         });
     });
     it('The correct Docker command is run when triggering Better PHPUnit', function () {
@@ -87,7 +93,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
             yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
             yield vscode.commands.executeCommand('yet-phpunit.run');
             yield timeout(waitToAssertInSeconds, () => { });
-            assert.equal(extension_1._getLastCommand().output.trim(), `docker exec CONTAINER /some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$'`);
+            assert.equal(extension_1._getLastCommand().output.trim(), `docker exec CONTAINER /some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$'${isCI ? ` --configuration ${workspaceRootPath}/phpunit.xml` : ''}`);
         });
     });
     it('The correct Docker suite command is run when triggering Yet Another PHPUnit', function () {
@@ -118,7 +124,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
             yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
             yield vscode.commands.executeCommand('yet-phpunit.run');
             yield timeout(waitToAssertInSeconds, () => { });
-            assert.equal(extension_1._getLastCommand().output.trim(), `ssh -tt -p2222 auser@ahost "docker exec CONTAINER /some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' "`);
+            assert.equal(extension_1._getLastCommand().output.trim(), `ssh -tt -p2222 auser@ahost "docker exec CONTAINER /some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ? `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`);
         });
     });
     it('The correct Docker suite command is run via SSH when triggering Yet Another PHPUnit', function () {
@@ -143,7 +149,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
             yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
             yield vscode.commands.executeCommand('yet-phpunit.run');
             yield timeout(waitToAssertInSeconds, () => { });
-            assert.equal(extension_1._getLastCommand().output.trim(), `putty -ssh -tt -p2222 auser@ahost "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' "`);
+            assert.equal(extension_1._getLastCommand().output.trim(), `putty -ssh -tt -p2222 auser@ahost "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ? `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`);
         });
     });
 });

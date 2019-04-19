@@ -18,10 +18,12 @@ function timeout(seconds: number, callback: any) {
 describe('Yet Another PHPUnit Test Suite', () => {
     const configuration = vscode.workspace.getConfiguration('yet-phpunit');
     let workspaceRootPath = vscode.workspace.rootPath || '';
-    
+    let isCI = false;
+
     // Fix CI tests path
     if (!workspaceRootPath.endsWith('/project-stub')) {
         workspaceRootPath = pathJoin(workspaceRootPath, 'project-stub');
+        isCI = true;
     }
 
     beforeEach(async () => {
@@ -164,10 +166,15 @@ describe('Yet Another PHPUnit Test Suite', () => {
         await vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
         await vscode.commands.executeCommand('yet-phpunit.run');
 
+        let expectedCommand = pathJoin(workspaceRootPath, '/vendor/bin/phpunit ') + pathJoin(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
+        if (isCI) {
+            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+        }
+
         await timeout(waitToAssertInSeconds, () => {
             assert.equal(
                 _getLastCommand().output.trim(),
-                pathJoin(workspaceRootPath, '/vendor/bin/phpunit ') + pathJoin(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'"
+                expectedCommand
             );
         });
     });
@@ -177,10 +184,15 @@ describe('Yet Another PHPUnit Test Suite', () => {
         await vscode.window.showTextDocument(document, { selection: new vscode.Range(12, 0, 12, 0) });
         await vscode.commands.executeCommand('yet-phpunit.run-previous');
 
+        let expectedCommand = pathJoin(workspaceRootPath, '/vendor/bin/phpunit ') + pathJoin(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
+        if (isCI) {
+            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+        }
+
         await timeout(waitToAssertInSeconds, () => {
             assert.equal(
                 _getLastCommand().output.trim(),
-                pathJoin(workspaceRootPath, '/vendor/bin/phpunit ') + pathJoin(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'"
+                expectedCommand
             );
         });
     });

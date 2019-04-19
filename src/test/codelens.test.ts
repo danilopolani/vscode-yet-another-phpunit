@@ -5,7 +5,12 @@ import TestCodeLensProvider from '../providers/testCodeLensProvider';
 
 describe('Yet Another PHPUnit CodeLens Test', () => {
     const configuration = vscode.workspace.getConfiguration('yet-phpunit');
-    const workspaceRootPath = vscode.workspace.rootPath || '';
+    let workspaceRootPath = vscode.workspace.rootPath || '';
+    
+    // Fix CI tests path
+    if (!workspaceRootPath.endsWith('/project-stub')) {
+        workspaceRootPath = pathJoin(workspaceRootPath, 'project-stub');
+    }
 
     beforeEach(async () => {
         // Reset the test/project-stub/.vscode/settings.json settings for each test.

@@ -24,7 +24,11 @@ function timeout(seconds, callback) {
 }
 describe('Yet Another PHPUnit Test Suite', () => {
     const configuration = vscode.workspace.getConfiguration('yet-phpunit');
-    const workspaceRootPath = vscode.workspace.rootPath || '';
+    let workspaceRootPath = vscode.workspace.rootPath || '';
+    // Fix CI tests path
+    if (!workspaceRootPath.endsWith('/project-stub')) {
+        workspaceRootPath = path_1.join(workspaceRootPath, 'project-stub');
+    }
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
         // Reset the test/project-stub/.vscode/settings.json settings for each test.
         // This allows us to test config options in tests and not harm other tests.

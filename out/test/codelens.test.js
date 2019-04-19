@@ -14,7 +14,11 @@ const path_1 = require("path");
 const testCodeLensProvider_1 = require("../providers/testCodeLensProvider");
 describe('Yet Another PHPUnit CodeLens Test', () => {
     const configuration = vscode.workspace.getConfiguration('yet-phpunit');
-    const workspaceRootPath = vscode.workspace.rootPath || '';
+    let workspaceRootPath = vscode.workspace.rootPath || '';
+    // Fix CI tests path
+    if (!workspaceRootPath.endsWith('/project-stub')) {
+        workspaceRootPath = path_1.join(workspaceRootPath, 'project-stub');
+    }
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
         // Reset the test/project-stub/.vscode/settings.json settings for each test.
         // This allows us to test config options in tests and not harm other tests.

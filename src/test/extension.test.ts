@@ -168,7 +168,7 @@ describe('Yet Another PHPUnit Test Suite', () => {
 
         let expectedCommand = pathJoin(workspaceRootPath, '/vendor/bin/phpunit ') + pathJoin(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
         if (isCI) {
-            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+            expectedCommand += ` --configuration ${workspaceRootPath}/phpunit.xml`;
         }
 
         await timeout(waitToAssertInSeconds, () => {
@@ -186,7 +186,7 @@ describe('Yet Another PHPUnit Test Suite', () => {
 
         let expectedCommand = pathJoin(workspaceRootPath, '/vendor/bin/phpunit ') + pathJoin(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
         if (isCI) {
-            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+            expectedCommand += ` --configuration ${workspaceRootPath}/phpunit.xml`;
         }
 
         await timeout(waitToAssertInSeconds, () => {

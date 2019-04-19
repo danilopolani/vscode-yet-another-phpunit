@@ -128,7 +128,7 @@ describe('Yet Another PHPUnit Test Suite', () => {
         yield vscode.commands.executeCommand('yet-phpunit.run');
         let expectedCommand = path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
         if (isCI) {
-            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+            expectedCommand += ` --configuration ${workspaceRootPath}/phpunit.xml`;
         }
         yield timeout(waitToAssertInSeconds, () => {
             assert.equal(extension_1._getLastCommand().output.trim(), expectedCommand);
@@ -140,7 +140,7 @@ describe('Yet Another PHPUnit Test Suite', () => {
         yield vscode.commands.executeCommand('yet-phpunit.run-previous');
         let expectedCommand = path_1.join(workspaceRootPath, '/vendor/bin/phpunit ') + path_1.join(workspaceRootPath, '/tests/SampleTest.php') + " --filter '^.*::test_first( .*)?$'";
         if (isCI) {
-            expectedCommand += `--configuration ${workspaceRootPath}/phpunit.xml`;
+            expectedCommand += ` --configuration ${workspaceRootPath}/phpunit.xml`;
         }
         yield timeout(waitToAssertInSeconds, () => {
             assert.equal(extension_1._getLastCommand().output.trim(), expectedCommand);

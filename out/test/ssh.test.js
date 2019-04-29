@@ -144,12 +144,12 @@ describe('Yet Another PHPUnit SSH Test', () => {
     });
     it('Can use a custom ssh binary', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            yield configuration.update('ssh.binary', "putty -ssh");
+            yield configuration.update('ssh.binary', 'plink.exe');
             const document = yield vscode.workspace.openTextDocument(path_1.join(workspaceRootPath, 'tests', 'SampleTest.php'));
             yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
             yield vscode.commands.executeCommand('yet-phpunit.run');
             yield timeout(waitToAssertInSeconds, () => { });
-            assert.equal(extension_1._getLastCommand().output.trim(), `putty -ssh -tt -p2222 auser@ahost "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ? `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`);
+            assert.equal(extension_1._getLastCommand().output.trim(), `plink.exe auser@ahost -P 2222 "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ? `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`);
         });
     });
 });

@@ -71,7 +71,7 @@ Variables to set up tests over SSH (for VMs like Laravel Homestead):
 | Name | Type | Default | Description |
 |------|------|---------|-------------|
 | `yet-phpunit.ssh.enable` | boolean | `false` | Set it to `true` to enable SSH. |
-| `yet-phpunit.ssh.binary` | string | `ssh` | Custom SSH agent binary, for example `putty`. |
+| `yet-phpunit.ssh.binary` | string | `ssh` | Custom SSH agent binary, for example `plink.exe` (PuTTY ssh). |
 | `yet-phpunit.ssh.host` | string | `null` | SSH hostname. |
 | `yet-phpunit.ssh.user` | string | `null` | SSH username. |
 | `yet-phpunit.ssh.port` | number | `22` | SSH port. |
@@ -79,10 +79,12 @@ Variables to set up tests over SSH (for VMs like Laravel Homestead):
 | `yet-phpunit.ssh.paths` | object | `{}` | The SSH path map. Keys are local (host) paths and values are remote (guest) paths. |
 
 ### Example of configuration
+> If you use PuTTy, you have to use `plink` as binary file (it's part of with PuTTy)
+
 ```
 {
     "yet-phpunit.ssh.enable": true,
-    "yet-phpunit.ssh.binary": "putty -ssh",
+    "yet-phpunit.ssh.binary": "plink.exe",
     "yet-phpunit.ssh.host": "host",
     "yet-phpunit.ssh.user": "user",
     "yet-phpunit.ssh.port": "22",

@@ -4,14 +4,14 @@ All notable changes to the "phpunit-discover" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [1.0.1] - 29-04-2019
+## [1.0.1] - 2019-04-29
 ### Fixed
 - SSH configuration for PuTTy / plink
 
 ### Changed
 - README example for PuTTy
 
-## [1.0.0] - 18-04-2019
+## [1.0.0] - 2019-04-18
 - Hello world!
 
 

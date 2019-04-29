@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/danilopolani/vscode-yet-another-phpunit.svg?branch=master)](https://travis-ci.org/danilopolani/vscode-yet-another-phpunit)
+[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version-short/danilopolani.yet-another-phpunit.svg)](https://marketplace.visualstudio.com/items?itemName=danilopolani.yet-another-phpunit)
+
+
 # Yet Another PHPUnit
 
 This extension is an enhanced fork-n-remake of [Better PHPUnit](https://github.com/calebporzio/better-phpunit). The major part of the code is taken from that repository.  

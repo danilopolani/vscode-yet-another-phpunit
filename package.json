@@ -147,6 +147,14 @@
                     "default": null,
                     "description": "Additional command line options to pass to ssh/putty/plink"
                 },
+                "yet-phpunit.ssh.shellAppend": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "Additional command(s) to put at the end of the shell command, outside PHPUnit"
+                },
                 "yet-phpunit.docker.enable": {
                     "type": "boolean",
                     "default": false,

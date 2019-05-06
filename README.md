@@ -80,6 +80,7 @@ Variables to set up tests over SSH (for VMs like Laravel Homestead):
 | `yet-phpunit.ssh.user` | string | `null` | SSH username. |
 | `yet-phpunit.ssh.port` | number | `22` | SSH port. |
 | `yet-phpunit.ssh.options` | string | `null` | Additional SSH options (arguments, flags etc.). |
+| `yet-phpunit.ssh.shellSuffix` | string | `null` | Command(s) to append after the SSH and PHPUnit command. For example, to enable color on Windows this is the right place. |
 | `yet-phpunit.ssh.paths` | object | `{}` | The SSH path map. Keys are local (host) paths and values are remote (guest) paths. |
 
 ### Example of configuration
@@ -93,6 +94,7 @@ Variables to set up tests over SSH (for VMs like Laravel Homestead):
     "yet-phpunit.ssh.user": "user",
     "yet-phpunit.ssh.port": "22",
     "yet-phpunit.ssh.options": null,
+    "yet-phpunit.ssh.shellSuffix": null,
     "yet-phpunit.ssh.paths": {
         "/your/local/path": "/your/remote/path"
     }

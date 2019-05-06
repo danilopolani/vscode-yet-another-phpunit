@@ -195,4 +195,19 @@ describe('Yet Another PHPUnit SSH Test', () => {
             `plink.exe auser@ahost -P 2222 "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ?  `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`
         );
     });
+
+    it('Can append stuff to shell when using SSH', async function () {
+        await configuration.update('ssh.binary', 'plink.exe');
+
+        const document = await vscode.workspace.openTextDocument(pathJoin(workspaceRootPath, 'tests', 'SampleTest.php'));
+        await vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
+        await vscode.commands.executeCommand('yet-phpunit.run');
+
+        await timeout(waitToAssertInSeconds, () => {});
+
+        assert.equal(
+            _getLastCommand().output.trim(),
+            `plink.exe auser@ahost -P 2222 "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ?  `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`
+        );
+    });
 });

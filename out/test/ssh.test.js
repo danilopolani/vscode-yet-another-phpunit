@@ -38,6 +38,8 @@ describe('Yet Another PHPUnit SSH Test', () => {
         yield configuration.update('ssh.user', 'auser');
         yield configuration.update('ssh.host', 'ahost');
         yield configuration.update('ssh.port', '2222');
+        yield configuration.update('ssh.binary', null);
+        yield configuration.update('ssh.shellAppend', null);
         yield configuration.update('docker.enable', false);
         yield configuration.update('docker.command', null);
         yield configuration.update('docker.paths', null);
@@ -54,6 +56,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
         yield configuration.update('ssh.host', 'ahost');
         yield configuration.update('ssh.port', '2222');
         yield configuration.update('ssh.binary', null);
+        yield configuration.update('ssh.shellAppend', null);
         yield configuration.update('ssh.paths', {});
         yield configuration.update('docker.enable', false);
         yield configuration.update('docker.command', null);
@@ -154,12 +157,12 @@ describe('Yet Another PHPUnit SSH Test', () => {
     });
     it('Can append stuff to shell when using SSH', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            yield configuration.update('ssh.binary', 'plink.exe');
+            yield configuration.update('ssh.shellAppend', '--color=always');
             const document = yield vscode.workspace.openTextDocument(path_1.join(workspaceRootPath, 'tests', 'SampleTest.php'));
             yield vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
             yield vscode.commands.executeCommand('yet-phpunit.run');
             yield timeout(waitToAssertInSeconds, () => { });
-            assert.equal(extension_1._getLastCommand().output.trim(), `plink.exe auser@ahost -P 2222 "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ? `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`);
+            assert.equal(extension_1._getLastCommand().output.trim(), `ssh -tt -p2222 auser@ahost "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ? `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}" --color=always`);
         });
     });
 });

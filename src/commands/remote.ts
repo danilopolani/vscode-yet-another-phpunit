@@ -73,7 +73,7 @@ export class RemotePhpUnitCommand extends PhpUnitCommand {
         const port = this.extConfiguration.get('ssh.port');
         const host = this.extConfiguration.get('ssh.host');
         const options = this.extConfiguration.get('ssh.options') || '';
-        const shellAppend = this.extConfiguration.get('ssh.shellAppend') || '';
+        const shellAppend = this.extConfiguration.get('ssh.shellAppend');
 
         // Build options string
         let optionsString = '';
@@ -85,6 +85,6 @@ export class RemotePhpUnitCommand extends PhpUnitCommand {
             optionsString = `${user}@${host} ${port ? '-P ' + port : ''} ${options}`;
         }
 
-        return `${this.sshBinary} ${optionsString}"${command}" ${shellAppend}`;
+        return `${this.sshBinary} ${optionsString}"${command}"${shellAppend ? ' ' + shellAppend : ''}`;
     }
 }

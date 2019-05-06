@@ -33,6 +33,8 @@ describe('Yet Another PHPUnit SSH Test', () => {
         await configuration.update('ssh.user', 'auser');
         await configuration.update('ssh.host', 'ahost');
         await configuration.update('ssh.port', '2222');
+        await configuration.update('ssh.binary', null);
+        await configuration.update('ssh.shellAppend', null);
         await configuration.update('docker.enable', false);
         await configuration.update('docker.command', null);
         await configuration.update('docker.paths', null);
@@ -52,6 +54,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
         await configuration.update('ssh.host', 'ahost');
         await configuration.update('ssh.port', '2222');
         await configuration.update('ssh.binary', null);
+        await configuration.update('ssh.shellAppend', null);
         await configuration.update('ssh.paths', {});
         await configuration.update('docker.enable', false);
         await configuration.update('docker.command', null);
@@ -197,7 +200,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
     });
 
     it('Can append stuff to shell when using SSH', async function () {
-        await configuration.update('ssh.binary', 'plink.exe');
+        await configuration.update('ssh.shellAppend', '--color=always');
 
         const document = await vscode.workspace.openTextDocument(pathJoin(workspaceRootPath, 'tests', 'SampleTest.php'));
         await vscode.window.showTextDocument(document, { selection: new vscode.Range(7, 0, 7, 0) });
@@ -207,7 +210,7 @@ describe('Yet Another PHPUnit SSH Test', () => {
 
         assert.equal(
             _getLastCommand().output.trim(),
-            `plink.exe auser@ahost -P 2222 "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ?  `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}"`
+            `ssh -tt -p2222 auser@ahost "/some/remote/path/vendor/bin/phpunit /some/remote/path/tests/SampleTest.php --filter '^.*::test_first( .*)?$' ${isCI ?  `--configuration ${workspaceRootPath}/phpunit.xml ` : ''}" --color=always`
         );
     });
 });

@@ -67,7 +67,7 @@ class RemotePhpUnitCommand extends phpunit_1.PhpUnitCommand {
         const port = this.extConfiguration.get('ssh.port');
         const host = this.extConfiguration.get('ssh.host');
         const options = this.extConfiguration.get('ssh.options') || '';
-        const shellAppend = this.extConfiguration.get('ssh.shellAppend') || '';
+        const shellAppend = this.extConfiguration.get('ssh.shellAppend');
         // Build options string
         let optionsString = '';
         // If not plink (PuTTy), run standard SSH command
@@ -77,7 +77,7 @@ class RemotePhpUnitCommand extends phpunit_1.PhpUnitCommand {
         else {
             optionsString = `${user}@${host} ${port ? '-P ' + port : ''} ${options}`;
         }
-        return `${this.sshBinary} ${optionsString}"${command}" ${shellAppend}`;
+        return `${this.sshBinary} ${optionsString}"${command}"${shellAppend ? ' ' + shellAppend : ''}`;
     }
 }
 exports.RemotePhpUnitCommand = RemotePhpUnitCommand;

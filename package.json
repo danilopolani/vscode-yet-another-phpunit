@@ -3,7 +3,7 @@
 	"displayName": "Yet Another PHPUnit",
 	"description": "Yet another extension to run PHPUnit tests, but with superpowers!",
 	"publisher": "danilopolani",
-	"version": "1.0.1",
+	"version": "1.1.0",
     "icon": "icon.png",
 	"engines": {
 		"vscode": "^1.33.0"

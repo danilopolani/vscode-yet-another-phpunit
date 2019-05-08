@@ -80,12 +80,12 @@ export default class TestCodeLensProvider implements CodeLensProvider {
                 return (<any>comment).kind === 'commentblock' && (<any>comment).value.indexOf('* @test') > -1;
             });
 
+            // Check if has a trailingcomment and save for the next iteration
+            previousTrailingComment = child.body.trailingComments || null;
+
             if (!child.name.name.startsWith('test') && !hasTestAnnotation) {
                 continue;
             }
-
-            // Check if has a trailingcomment and save for the next iteration
-            previousTrailingComment = child.body.trailingComments || null;
 
             // Assert that this class has at least one test
             classHasTests = true;

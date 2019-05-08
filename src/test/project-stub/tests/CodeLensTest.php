@@ -5,6 +5,11 @@ class CodeLensTest extends PHPUnit\Framework\TestCase
     // Const to be ignored by CodeLens
     public const NOT_A_METHOD = true;
 
+    public function setUp()
+    {
+        // Skip
+    }
+
     /**
      * Test with decorator.
      *

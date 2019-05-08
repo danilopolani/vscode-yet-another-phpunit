@@ -82,11 +82,11 @@ class TestCodeLensProvider {
             const hasTestAnnotation = leadingComments.find((comment) => {
                 return comment.kind === 'commentblock' && comment.value.indexOf('* @test') > -1;
             });
+            // Check if has a trailingcomment and save for the next iteration
+            previousTrailingComment = child.body.trailingComments || null;
             if (!child.name.name.startsWith('test') && !hasTestAnnotation) {
                 continue;
             }
-            // Check if has a trailingcomment and save for the next iteration
-            previousTrailingComment = child.body.trailingComments || null;
             // Assert that this class has at least one test
             classHasTests = true;
             // Build range for the method (where to put the CodeLens)

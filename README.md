@@ -70,6 +70,8 @@ Open your settings (or Workspace settings), switch to JSON and put them like thi
 
 ## SSH configuration
 
+> If you plan to use SSH, take a look also to new VSCode feature: [**Remote development**](https://code.visualstudio.com/docs/remote/ssh).
+
 Variables to set up tests over SSH (for VMs like Laravel Homestead):
 
 | Name | Type | Default | Description |
